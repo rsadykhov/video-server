@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block bodyblock %}
+    <div class="container after-navbar">
+        <h1>{{ title }}</h1>
+        <ul class="items-list padding-vertical">
+            {% for item in page_obj %}
+                {% if title == "Tags" %}
+                    <a class="items-list-item" href="{% url 'videos:tags_detail' pk=item.pk %}"><li>
+                        <div style="grid-template-columns: 1fr 4fr;">
+                            <div>
+                                <div class="items-list-title">#{{ item.name }}</div>
+                                <div class="items-list-extra">Number of Videos: {{ item.n_items }}</div>
+                            </div>
+                            <div></div>
+                        </div>
+                    </li></a>
+                {% elif title == "Categories" %}
+                    <a class="items-list-item" href="{% url 'videos:categories_detail' pk=item.pk %}"><li>
+                        <div style="grid-template-columns: 1fr 4fr;">
+                            <div>
+                                <div class="items-list-title">{{ item.name }}</div>
+                                <div class="items-list-extra">Number of Videos: {{ item.n_items }}</div>
+                            </div>
+                            <div></div>
+                        </div>
+                    </li></a>
+                {% else %}
+                    <span>No content available</span>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        <!-- Pagination -->
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; First</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">Next</a>,
+                    <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+{% endblock %}

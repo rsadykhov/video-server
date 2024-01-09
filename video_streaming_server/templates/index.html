@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}{{ interface_title }}{% endblock %}
+
+{% block bodyblock %}
+    <div class="container after-navbar">
+        <h1>{{ title }}</h1>
+        <!-- Videos -->
+        <div class="grid-three padding-vertical">
+            {% for video in page_obj %}
+                <div class="grid-column-center">
+                    <div class="video-card">
+                        <video width="320" height="240" preload controls>
+                            <source src="{{ video.video.url }}" type="video/mp4"/>
+                        </video>
+                        <div class="video-card-content">
+                            <a href="{% url 'videos:videos_detail' pk=video.pk %}">
+                                <div class="video-card-title">{{ video.title }}</div>
+                                <div class="video-card-time">{{ video.uploaded_on }}</div>
+                            </a>
+                            <div class="video-items">
+                                {% if video.tags %}
+                                    {% for tag in video.tags.all|slice:":5" %}
+                                        <a href="{% url 'videos:tags_detail' pk=tag.pk %}"><div class="video-tag">#{{ tag.name }}</div></a>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            <div class="video-card-subtitle">Categories</div>
+                            <div class="video-items">
+                                {% if video.categories %}
+                                    {% for category in video.categories.all|slice:":4" %}
+                                    <a href="{% url 'videos:categories_detail' pk=category.pk %}"><div class="video-category">{{ category.name }}</div></a>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <!-- Pagination -->
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; First</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">Next</a>,
+                    <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+{% endblock %}

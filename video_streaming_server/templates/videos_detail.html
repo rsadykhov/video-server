@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}{{ video.title }}{% endblock %}
+
+{% block bodyblock %}
+    <div class="container after-navbar">
+        <h1>{{ video.title }}</h1>
+        <video class="padding-vertical" style="width: 100%;" preload controls>
+            <source src="{{ video.video.url }}" type="video/mp4"/>
+        </video>
+        <div class="video-info">
+            <!-- First row -->
+            <div class="video-info-title">Uploaded On</div>
+            <div class="video-info-item">{{ video.uploaded_on }}</div>
+            <!-- Second row -->
+            <div class="video-info-title">Tags</div>
+            <div class="video-info-item">
+                {% if video.tags %}
+                    {% for tag in video.tags.all %}
+                        <div class="video-tag">#{{ tag.name }}</div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <!-- Third row -->
+            <div class="video-info-title">Categories</div>
+            <div class="video-info-item">
+                {% if video.categories %}
+                    {% for category in video.categories.all %}
+                        <div class="video-category">{{ category.name }}</div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <!-- Fourth row -->
+            <div class="video-info-title">Description</div>
+            <div class="video-info-item">{{ video.description }}</div>
+        </div>
+    </div>
+{% endblock %}
