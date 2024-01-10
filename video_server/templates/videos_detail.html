@@ -8,6 +8,7 @@
         <video class="padding-vertical" style="width: 100%;" preload controls>
             <source src="{{ video.video.url }}" type="video/mp4"/>
         </video>
+        <!-- Video information -->
         <div class="video-info">
             <!-- First row -->
             <div class="video-info-title">Uploaded On</div>
@@ -34,5 +35,76 @@
             <div class="video-info-title">Description</div>
             <div class="video-info-item">{{ video.description }}</div>
         </div>
+        <!-- Recommendations -->
+        {% if similar_videos %}
+            <h2>Similar Content</h2>
+            <div class="grid-three">
+                {% for video in similar_videos %}
+                    <div class="grid-column-center">
+                        <div class="video-card">
+                            <video width="320" height="240" preload controls>
+                                <source src="{{ video.video.url }}" type="video/mp4"/>
+                            </video>
+                            <div class="video-card-content">
+                                <a href="{% url 'videos:videos_detail' pk=video.pk %}">
+                                    <div class="video-card-title">{{ video.title }}</div>
+                                    <div class="video-card-time">{{ video.uploaded_on }}</div>
+                                </a>
+                                <div class="video-items">
+                                    {% if video.tags %}
+                                        {% for tag in video.tags.all|slice:":5" %}
+                                            <a href="{% url 'videos:tags_detail' pk=tag.pk %}"><div class="video-tag">#{{ tag.name }}</div></a>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="video-card-subtitle">Categories</div>
+                                <div class="video-items">
+                                    {% if video.categories %}
+                                        {% for category in video.categories.all|slice:":4" %}
+                                        <a href="{% url 'videos:categories_detail' pk=category.pk %}"><div class="video-category">{{ category.name }}</div></a>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% if opposite_videos %}
+            <h2>Different Content</h2>
+            <div class="grid-three">
+                {% for video in opposite_videos %}
+                    <div class="grid-column-center">
+                        <div class="video-card">
+                            <video width="320" height="240" preload controls>
+                                <source src="{{ video.video.url }}" type="video/mp4"/>
+                            </video>
+                            <div class="video-card-content">
+                                <a href="{% url 'videos:videos_detail' pk=video.pk %}">
+                                    <div class="video-card-title">{{ video.title }}</div>
+                                    <div class="video-card-time">{{ video.uploaded_on }}</div>
+                                </a>
+                                <div class="video-items">
+                                    {% if video.tags %}
+                                        {% for tag in video.tags.all|slice:":5" %}
+                                            <a href="{% url 'videos:tags_detail' pk=tag.pk %}"><div class="video-tag">#{{ tag.name }}</div></a>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="video-card-subtitle">Categories</div>
+                                <div class="video-items">
+                                    {% if video.categories %}
+                                        {% for category in video.categories.all|slice:":4" %}
+                                        <a href="{% url 'videos:categories_detail' pk=category.pk %}"><div class="video-category">{{ category.name }}</div></a>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

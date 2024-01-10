@@ -20,14 +20,14 @@ def get_recommendations(video_pk: int):
         opposite = []
         for i in range(3):
             try:
-                opposite.append(corr_s.index[i])
+                opposite.append(int(corr_s.index[i]))
             except IndexError:
                 break
         corr_s.sort_values(ascending=False)
         similar = []
         for i in range(3):
             try:
-                similar.append(corr_s.index[i])
+                similar.append(int(corr_s.index[i]))
             except IndexError:
                 break
         return {"similar":similar, "opposite":opposite}

@@ -9,6 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from videos import models
 from users.models import InterfaceCustomization
 from django.core.paginator import Paginator
+import json
 
 
 
@@ -32,6 +33,22 @@ def get_page_obj(request, query_set, items_per_page):
     paginator = Paginator(query_set, items_per_page)
     page_number = request.GET.get("page")
     return paginator.get_page(page_number)
+
+
+
+def extract_recommentations(video: models.Videos):
+    try:
+        similar_pks = json.loads(video.similar_videos)
+        opposite_pks = json.loads(video.opposite_videos)
+    except TypeError:
+        return {"similar_videos":[], "opposite_videos":[]}
+    similar_videos = []
+    for pk in similar_pks:
+        similar_videos.append(models.Videos.objects.get(pk=pk))
+    opposite_videos = []
+    for pk in opposite_pks:
+        opposite_videos.append(models.Videos.objects.get(pk=pk))
+    return {"similar_videos":similar_videos, "opposite_videos":opposite_videos}
 
 
 
@@ -85,6 +102,9 @@ class VideosDetailView(DetailView, LoginRequiredMixin):
         context["interface_title"] = interface_config()["interface_title"]
         video = get_object_or_404(models.Videos, pk=self.kwargs["pk"])
         context["video"] = video
+        recommendations = extract_recommentations(video=video)
+        context["similar_videos"] = recommendations["similar_videos"]
+        context["opposite_videos"] = recommendations["opposite_videos"]
         return context
 
 
