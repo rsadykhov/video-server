@@ -4,7 +4,7 @@ from django.views.generic import DetailView
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.views import LoginView
-from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from videos import models
 from users.models import InterfaceCustomization
@@ -55,7 +55,7 @@ def extract_recommentations(video: models.Videos):
 # Main website
 
 
-@user_passes_test(lambda u: u.is_superuser)
+@login_required
 def index(request):
     # Load main settings
     config_dict = interface_config()
@@ -82,7 +82,7 @@ class UserLoginView(LoginView):
 
 
 
-@user_passes_test(lambda u: u.is_superuser)
+@login_required
 def logout_view(request):
     logout(request)
     return redirect("videos:login")
@@ -109,7 +109,7 @@ class VideosDetailView(DetailView, LoginRequiredMixin):
 
 
 
-@user_passes_test(lambda u: u.is_superuser)
+@login_required
 def tags_list_view(request):
     interface_title = interface_config()["interface_title"]
     tags_list = models.Tags.objects.all().order_by("n_items")
@@ -118,7 +118,7 @@ def tags_list_view(request):
 
 
 
-@user_passes_test(lambda u: u.is_superuser)
+@login_required
 def tags_detail_view(request, pk):
     # Load main settings
     config_dict = interface_config()
@@ -133,7 +133,7 @@ def tags_detail_view(request, pk):
 
 
 
-@user_passes_test(lambda u: u.is_superuser)
+@login_required
 def categories_list_view(request):
     interface_title = interface_config()["interface_title"]
     categories_list = models.Categories.objects.all().order_by("n_items")
@@ -142,7 +142,7 @@ def categories_list_view(request):
 
 
 
-@user_passes_test(lambda u: u.is_superuser)
+@login_required
 def categories_detail_view(request, pk):
     # Load main settings
     config_dict = interface_config()

@@ -25,14 +25,11 @@ class Videos(models.Model):
     def __str__(self):
         return f"{self.title}"
     
-    def clean(self, *args, **kwargs):
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
         recommendations = get_recommendations(video_pk=self.pk)
         self.similar_videos = json.dumps(recommendations["similar"])
         self.opposite_videos = json.dumps(recommendations["opposite"])
-        super().clean(*args, **kwargs)
-    
-    def save(self, *args, **kwargs):
-        self.full_clean()
         return super().save(*args, **kwargs)
 
 
