@@ -14,4 +14,5 @@ urlpatterns = [
     path("tags/<int:pk>/", views.tags_detail_view, name="tags_detail"),
     path("categories/", views.categories_list_view, name="categories_list"),
     path("categories/<int:pk>/", views.categories_detail_view, name="categories_detail"),
+    path("update_recommendations/", views.update_recommendations, name="update_recommendations"),
 ]

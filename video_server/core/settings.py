@@ -42,8 +42,8 @@ INSTALLED_APPS = [
     "users.apps.UsersConfig",
     "videos.apps.VideosConfig",
     # Python dependencies
-    # Django==4.1.8
-    # pandas==2.0.0
+    # django==4.1
+    # pandas==2.0
 ]
 
 MIDDLEWARE = [

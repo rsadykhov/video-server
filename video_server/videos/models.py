@@ -1,9 +1,7 @@
 import os
 from django.db import models
 from django.dispatch import receiver
-import json
 from .validators import validate_file_extension
-from .recommender_system import get_recommendations
 
 
 
@@ -24,13 +22,6 @@ class Videos(models.Model):
 
     def __str__(self):
         return f"{self.title}"
-    
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        recommendations = get_recommendations(video_pk=self.pk)
-        self.similar_videos = json.dumps(recommendations["similar"])
-        self.opposite_videos = json.dumps(recommendations["opposite"])
-        return super().save(*args, **kwargs)
 
 
 

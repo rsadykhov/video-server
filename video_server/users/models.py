@@ -19,8 +19,6 @@ class InterfaceCustomization(models.Model):
         constraints = [models.UniqueConstraint(fields=("title",), condition=Q(active=True), name="unique_active_configuration"),]
     
     title = models.CharField(max_length=127, verbose_name="Title")
-    # TODO: Add logo to navbar
-    logo = models.ImageField(blank=True, null=True, upload_to="images", verbose_name="Logo")
     active = models.BooleanField(default=True, null=False, verbose_name="Active")
     hide_videos = models.BooleanField(default=False, verbose_name="Hide Videos")
 

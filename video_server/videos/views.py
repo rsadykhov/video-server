@@ -10,6 +10,7 @@ from videos import models
 from users.models import InterfaceCustomization
 from django.core.paginator import Paginator
 import json
+from .recommender_system import get_recommendations
 
 
 
@@ -86,6 +87,20 @@ class UserLoginView(LoginView):
 def logout_view(request):
     logout(request)
     return redirect("videos:login")
+
+
+
+@login_required
+def update_recommendations(request):
+    # TODO: Set up Celery process for this view
+    video_pks = models.Videos.objects.all().values_list("id", flat=True)
+    for video_pk in video_pks:
+        video = models.Videos.objects.get(pk=video_pk)
+        recommendations = get_recommendations(video_pk=video_pk)
+        video.similar_videos = json.dumps(recommendations["similar"])
+        video.opposite_videos = json.dumps(recommendations["opposite"])
+        video.save()
+    return redirect("videos:index")
 
 
 
