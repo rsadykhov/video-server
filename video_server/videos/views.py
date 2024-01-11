@@ -92,7 +92,6 @@ def logout_view(request):
 
 @login_required
 def update_recommendations(request):
-    # TODO: Set up Celery process for this view
     video_pks = models.Videos.objects.all().values_list("id", flat=True)
     for video_pk in video_pks:
         video = models.Videos.objects.get(pk=video_pk)
