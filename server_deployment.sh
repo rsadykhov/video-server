@@ -1,4 +1,5 @@
 #!/bin/bash
+source venv/bin/activate
 cd video_server
 python3 manage.py makemigrations users
 python3 manage.py migrate users
