@@ -10,6 +10,7 @@ from videos import models
 from users.models import InterfaceCustomization
 from django.core.paginator import Paginator
 import json
+from users.forms import UserLogInForm
 from .recommender_system import get_recommendations
 
 
@@ -71,6 +72,7 @@ def index(request):
 
 
 class UserLoginView(LoginView):
+    form_class = UserLogInForm
     template_name = "login.html"
     redirect_authenticated_user = True
 

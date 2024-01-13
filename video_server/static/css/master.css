@@ -18,6 +18,10 @@
     border: 10px solid red;
 }
 
+.custom-form-field {
+    width: 100%;
+}
+
 .nav-style {
     background-color: var(--secondary-background);
     border-bottom: 1px solid var(--gold);
