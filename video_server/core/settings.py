@@ -26,7 +26,9 @@ SECRET_KEY = "django-insecure-53qt%r616n1cibl=n45xw-t_*&8@41s@*fw_qh7o)!dkngzbya
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+]
 
 
 # Application definition
@@ -54,6 +56,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # Custom middleware
+    "videos.byte_range.RangesMiddleware",
 ]
 
 ROOT_URLCONF = "core.urls"
